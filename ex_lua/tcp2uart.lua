@@ -1,8 +1,9 @@
 if srv then srv:close() srv=nil end
+
 uart.setup(0, 9600, 8, uart.PARITY_NONE, uart.STOPBITS_1, 0)
-sv=net.createServer(net.TCP, 60)
+srv=net.createServer(net.TCP, 60)
 global_c = nil
-sv:listen(9999, function(c)
+srv:listen(9999, function(c)
     if global_c~=nil then
         global_c:close()
     end
@@ -15,3 +16,4 @@ uart.on("data",4, function(data)
         global_c:send(data)
     end
 end, 0)
+print("tcp2uart started\n")

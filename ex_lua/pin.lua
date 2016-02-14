@@ -21,7 +21,7 @@ gpio.mode(1,gpio.INPUT, gpio.PULLUP)
 function pin()
 print(gpio.read(1))
 end
---tmr.alarm(2, 10, 1, pin)
+tmr.alarm(2, 1000, 1, pin)
 
 
 

@@ -1,4 +1,3 @@
-
 local httpRequest={}
 httpRequest["/"]="index.htm";
 httpRequest["/index.htm"]="index.htm";
@@ -63,6 +62,7 @@ srv:listen(80,function(conn)
         end
         print("[Connection closed]");
         conn:close();
-        collectgarbage();
+       collectgarbage();
     end)
 end)
+print("web started\n")
