@@ -34,6 +34,7 @@ wifi.sta.connect()
 
 mem = true
 telnet = true  
+cl = 0
 
 gpio.mode(1,gpio.INPUT, gpio.PULLUP)
 gpio.mode(6,gpio.OUTPUT)
@@ -62,8 +63,12 @@ end
 function clik()
     if gpio.read(1) == 1 then
         elseif gpio.read(1) == 0 then
-        select()
+        cl = cl + 1
     end
+        if cl >= 5 then
+            select()
+            cl = 0
+        end
 end
 
 function select()
@@ -85,7 +90,7 @@ telnet = not telnet
     end
 end
 
-tmr.alarm(0, 5000, 1, clik)
+tmr.alarm(0, 1000, 1, clik)
 
 
 
