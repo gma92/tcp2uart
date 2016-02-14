@@ -18,13 +18,19 @@ wifi.sta.connect()
   print("System Info:  ")
     majorVer, minorVer, devVer, chipid, flashid, flashsize, flashmode, flashspeed = node.info();
     print("NodeMCU "..majorVer.."."..minorVer.."."..devVer.."\nFlashsize: "..flashsize.."\nChipID: "..chipid)
-    print("FlashID: "..flashid.."\n".."Flashmode: "..flashmode.."\nHeap: "..node.heap())
+    print("FlashID: "..flashid.."\n".."Flashmode: "..flashmode.."\nHeap: "..node.heap().."\nVCC: "..adc.readvdd33())
      -- get file system info
     remaining, used, total=file.fsinfo()
     print("\nFile system info:\nTotal : "..total.." Bytes\nUsed : "..used.." Bytes\nRemain: "..remaining.." Bytes\n")
     function ip()
-   -- print(wifi.sta.config())
-    print("IP: "..wifi.sta.getip())
+    --Get current Station configuration
+    ssid, password, bssid_set, bssid=wifi.sta.getconfig()
+    print("\nCurrent Station configuration:\nSSID : "..ssid
+    .."\nPassword  : "..password
+    .."\nBSSID_set  : "..bssid_set
+    .."\nBSSID: "..bssid.."\n")
+    ssid, password, bssid_set, bssid=nil, nil, nil, nil
+    print("IP: "..wifi.sta.getip())   
     --print(wifi.sta.getip())
     print("\nReady")
     dofile("tcp2uart.lua") --start telnet
