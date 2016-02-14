@@ -27,12 +27,12 @@ wifi.sta.connect()
     print("IP: "..wifi.sta.getip())
     --print(wifi.sta.getip())
     print("\nReady")
-    --dofile("tcp2uart.lua")
+    dofile("tcp2uart.lua") --start telnet
     stat(1)
     end
-    tmr.alarm(1, 4000, 0, ip)
+    tmr.alarm(1, 4000, 0, ip) --print ip
 
-mem = true
+
 telnet = true  
 cl = 0
 
@@ -43,7 +43,7 @@ gpio.mode(7,gpio.OUTPUT)
 gpio.write(6, gpio.LOW)
 gpio.write(7, gpio.LOW)
 
-function stat(s)
+function stat(s)   --leds color
     if s == 0 then
     gpio.write(6, gpio.LOW)
     gpio.write(7, gpio.LOW)
@@ -60,26 +60,21 @@ function stat(s)
 end
 
 
-function clik()
+function clik() --counter button
     if gpio.read(1) == 1 then
         elseif gpio.read(1) == 0 then
         cl = cl + 1
+        tmr.start(2)
     end
         if cl >= 5 then
-            select()
+            server()
             cl = 0
+            tmr.stop(2)
         end
 end
 
-function select()
-mem = not mem
-    if mem == false then
-    mem = not mem
-    server()
-    end
-end
 
-function server()
+function server() --selector tcp
 telnet = not telnet 
     if telnet == true then
     dofile("tcp2uart.lua")
@@ -91,6 +86,8 @@ telnet = not telnet
 end
 
 tmr.alarm(0, 1000, 1, clik)
+tmr.alarm(2, 6000, 1, function() cl = 0  end)
+tmr.stop(2)
 
 
 
